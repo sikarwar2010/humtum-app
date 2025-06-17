@@ -4,6 +4,8 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
+import { Toaster } from "@/components/ui/sonner";
+import { ConvexInitializer } from "@/components/ConvexInitializer";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -26,7 +28,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <ClerkProvider>
+        <ClerkProvider
+            publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+        >
             <html lang="en" suppressHydrationWarning>
                 <body
                     className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -39,6 +43,8 @@ export default function RootLayout({
                     >
                         <ConvexClientProvider>
                             {children}
+                            <Toaster position="top-center" />
+                            <ConvexInitializer />
                         </ConvexClientProvider>
                     </ThemeProvider>
                 </body>
